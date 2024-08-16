@@ -1,0 +1,7 @@
+Im now thinking on how to solve a bug, in my current code i've managed to properly print the words,translation, phonemes.Still need to implement sending it to anki and how its pronounced(with gtts). My problem rn is that with my trans function i also return
+unecessary data like source and destination languages. Here is my function:
+def trans(text):
+    translator = Translator()
+    translation= translator.translate(text, dest= "it")
+    return translation
+Right now i've figured that translation is a list (split doesnt work while something like sorted does) and i need to understand how to index from after "text="
