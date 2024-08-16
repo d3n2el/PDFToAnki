@@ -11,8 +11,8 @@ def main():
     page= reader.pages[0]   
     text = page.extract_text()
     words_it = trans(text)
-    audio_path= "audio.mp3"
-    create_audio(text, audio_path)
+    updated_words_it= words_it.split(" ")
+    updated_text= text.split(" ")
     model_id = random.randrange(1 << 30, 1 << 31)
     deck_id = random.randrange(1 << 30, 1 << 31)
     my_model = genanki.Model(
@@ -20,37 +20,26 @@ def main():
         'Linguistics',
         fields=[
         {'name': 'Spanish'},
-        {'name': 'Italian'},
-        {'name': 'AudioFile'}                               
+        {'name': 'Italian'},                               
     ],
     templates=[
         {
         'name': 'Card 1',
-        'qfmt': '{{Spanish}}<br>{{AudioFile}}',              
+        'qfmt': '{{Spanish}}',              
         'afmt': '{{FrontSide}}<hr id="answer">{{Italian}}',
         },
     ] )
-    my_note= genanki.Note(
-        model= my_model,
-        fields= [text, words_it,audio_path]
-    )
-    my_deck = genanki.Deck(
-        deck_id,
-    'Espanol palabras')
-    my_deck.add_note(my_note)
     try:
-        my_package = genanki.Package(my_deck)
-        my_package.media_files = ['audio.mp3']
-        my_package.write_to_file("output.apkg")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-
-def create_audio(words, output_path):
-    tts = gTTS(words, lang="es", tld="es")
-    try:
-        tts.save(output_path)
-        print(f"Audio saved as {output_path}")
+        for i in len(updated_text):
+            my_note= genanki.Note(
+            model= my_model,
+            fields= [text,words_it] 
+        )
+        my_deck = genanki.Deck(
+            deck_id,
+        'Espanol palabras')
+        my_deck.add_note(my_note)
+        genanki.Package(my_deck).write_to_file("output.apkg")  
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -59,7 +48,7 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-#as of rn it doesnt create any problem when i run the program, still dont know where the created files end up but whatever
+
 
 
 main()
