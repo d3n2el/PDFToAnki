@@ -1,15 +1,12 @@
-
-import os
+from PyPDF2 import PdfReader
 from googletrans import Translator
 from fonemas import Transcription
 from gtts import gTTS
 import genanki
-import pdfminer
-from pdfminer.high_level import extract_text
-
-print("pdfminer and extract_text imported successfully")
+import os
+print(os.getcwd())
 def main():
-    read_pdf("sample.pdf")
+    reader = PdfReader("example.pdf")
     extracted_text= reader.extract_text()
     print(extracted_text)
     words_it = trans(extracted_text)
