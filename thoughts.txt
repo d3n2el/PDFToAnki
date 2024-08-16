@@ -7,3 +7,4 @@ def trans(text):
 Right now i've figured that translation is a list (split doesnt work while something like sorted does) and i need to understand how to index from after "text="
 Thought id use slicing but i guess not
 Switching over to make my transcription function work properly as i cant find the solution
+I think im going to change library for the transcription because the docs are not good
