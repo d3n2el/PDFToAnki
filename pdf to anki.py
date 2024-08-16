@@ -8,25 +8,23 @@ import os
 def main():
     file= sys.argv[1]
     reader = PdfReader(f"C:/Users/Danzel/Documents/pdf files/{file}")
-    for page in reader.pages():
-        text = page.extract_text()
-    extracted_text= reader.extract_text()
-    print(extracted_text)
-    words_it = trans(extracted_text)
+    page= reader.pages[0]   
+    text = page.extract_text()
+    words_it = trans(text)
     print(words_it)
-    pronunciation= create_transcription(extracted_text)
+    pronunciation= create_transcription(text)
     print(pronunciation)
 
 
 def create_transcription(words):
-    object= Transcription(words)
-    return object
+    transcription= Transcription(words)
+    return transcription
 
 def trans(text):
     translator = Translator()
-    translation= translator.translate(extracted_text, dest= "it")
-    return translation
-def send_anki(deck):
+    translation= translator.translate(text, dest= "it")
+    return translation.text
 
+    
 
 main()
