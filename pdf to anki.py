@@ -12,13 +12,16 @@ def main():
     text = page.extract_text()
     words_it = trans(text)
     print(words_it)
-    pronunciation= create_transcription(text)
-    print(pronunciation)
+    x = create_audio(text)
 
-
-def create_transcription(words):
-    transcription= Transcription(words)
-    return transcription
+def create_audio(words):
+    tts = gTTS(words, lang="es", tld="es")
+    filename = f"{words}.mp3"
+    try:
+        tts.save(filename)
+        print(f"Audio saved as {filename}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def trans(text):
     translator = Translator()
