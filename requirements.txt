@@ -1,0 +1,2 @@
+you need to have installed a lot of python libraries. to make your life easier, i will just write here the command you need to type in the terminal to install everything:
+pip install PyPDF2 googletrans==4.0.0-rc1 gTTS genanki
