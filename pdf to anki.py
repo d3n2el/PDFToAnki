@@ -12,14 +12,14 @@ def main():
     text = page.extract_text()
     words_it = trans(text)
     print(words_it)
-    x = create_audio(text)
+    audio_path= "audio.mp3"
+    x = create_audio(text, audio_path)
 
-def create_audio(words):
+def create_audio(words, output_path):
     tts = gTTS(words, lang="es", tld="es")
-    filename = f"{words}.mp3"
     try:
-        tts.save(filename)
-        print(f"Audio saved as {filename}")
+        tts.save(output_path)
+        print(f"Audio saved as {output_path}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -28,6 +28,7 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-    
+#in this version i finally managed to get gtts to create the audio
+#now the problem is understanding where is that file(and therefore changing directories) and make a dynamic naming system
 
 main()
