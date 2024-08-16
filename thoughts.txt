@@ -9,3 +9,5 @@ Thought id use slicing but i guess not
 Switching over to make my transcription function work properly as i cant find the solution
 I think im going to change library for the transcription because the docs are not good
 made slight improvements to the trans function, might not need another library as googltrans already does it for me. Need to figure out how to separate in two values
+the program outputs an anki deck file in the folder where the program is, the problem is that anki has been freezed for like 3 minutes when i tried importing the file, which makes me worry a little.
+In the meantime i will add support to french and russian using sys.argv and conditional statements/ match case
