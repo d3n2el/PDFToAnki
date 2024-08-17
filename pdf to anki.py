@@ -33,12 +33,13 @@ def main():
         deck_id,
         'Espanol palabras')
     try:
-        for i in updated_words_it or i in updated_text:
-            my_note= genanki.Note(
-            model= my_model,
-            fields= [updated_text[i],updated_words_it[i]] 
-            )
-            my_deck.add_note(my_note)
+        for i in updated_words_it:
+            for q in updated_text:
+                my_note= genanki.Note(
+                model= my_model,
+                fields= [q,i] 
+                )
+                my_deck.add_note(my_note)
         genanki.Package(my_deck).write_to_file("output.apkg")  
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -48,5 +49,5 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-
+#in this version i finally get separated flashcards but i STILL DONT GET SEPARATED TRANSLATION
 main()
