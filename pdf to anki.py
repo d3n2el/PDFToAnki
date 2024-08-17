@@ -30,14 +30,18 @@ def main():
         ],
     )
     my_deck = genanki.Deck(deck_id, "Espanol palabras")
-    audio_path = "audio.mp3"
+    audio_paths = []
     try:
         for i, q in zip(updated_words_it, updated_text, strict=True):
-            create_audio(q, audio_path)
-            my_note = genanki.Note(model=my_model, fields=[q, i, "[sound:audio.mp3]"])
+            audio_file_path = f"audio{i}.mp3"
+            create_audio(q, audio_file_path)
+            my_note = genanki.Note(
+                model=my_model, fields=[q, i, f"[sound:{audio_file_path}]"]
+            )
             my_deck.add_note(my_note)
+            audio_paths.append(audio_file_path)
         package = genanki.Package(my_deck)
-        package.media_files = [audio_path]
+        package.media_files = audio_paths
         package.write_to_file("output.apkg")
     except Exception as e:
         print(f"An error occurred: {e}")
