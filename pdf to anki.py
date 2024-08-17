@@ -33,9 +33,7 @@ def main():
         deck_id,
         'Espanol palabras')
     try:
-        for i in updated_words_it:
-            for q in updated_text:
-  
+        for i,q in zip(updated_words_it,updated_text):
                 my_note= genanki.Note(
                 model= my_model,
                 fields= [q,i] 
@@ -45,10 +43,11 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
 
+#creates 2 flashcards instead of 4, 2nd one with wrong trans. when strict= True it tells me updated_text is longer. might need to check on the trans function
+
 def trans(text):
     translator = Translator()
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-#this version,well,check it for yourself. I bursted out laughing
 main()
