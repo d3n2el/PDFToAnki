@@ -8,13 +8,13 @@ import random
 import re
 
 def main():
-    file= sys.argv[1]
-    reader = PdfReader(f"C:/Users/Danzel/Documents/pdf files/{file}")
-    page= reader.pages[0]   
+    file = sys.argv[1]
+    reader = PdfReader(file)
+    page = reader.pages[0]   
     text = page.extract_text()
     words_it = trans(text)
     updated_words_it = words_it.split("\n")
-    updated_text= text.split("\n")
+    updated_text = text.split("\n")
     model_id = random.randrange(1 << 30, 1 << 31)
     deck_id = random.randrange(1 << 30, 1 << 31)
     my_model = genanki.Model(
@@ -28,24 +28,28 @@ def main():
     templates=[
         {
         'name': 'Card 1',
-        'qfmt': '{{Spanish}}<br>{{[sound:Audio]}}',              
+        'qfmt': '{{Spanish}}<br>{{Audio}}',              
         'afmt': '{{FrontSide}}<hr id="answer">{{Italian}}',
         },
     ] )
     my_deck = genanki.Deck(
         deck_id,
         'Espanol palabras')
+    audio_paths = []
     try:
         for i,q in zip(updated_words_it,updated_text):
-                santized_q= sanitize_filename(q).strip()
-                audio_path= f"{santized_q}.mp3"
-                create_audio(q, audio_path)
+                sanitized_q= sanitize_filename(q).strip()
+                audio_file_path = f"audio{sanitized_q}.mp3"
+                create_audio(q, audio_file_path)
                 my_note= genanki.Note(
                 model= my_model,
-                fields= [q,i,audio_path] 
+                fields= [q,i, f"[sound:{audio_file_path}]"] 
                 )
+                audio_paths.append(audio_file_path)
                 my_deck.add_note(my_note)
-        genanki.Package(my_deck).write_to_file("output.apkg")  
+        package= genanki.Package(my_deck)
+        package.media_files = audio_paths
+        package.write_to_file("output.apkg")  
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -65,4 +69,5 @@ def trans(text):
 
 def sanitize_filename(filename):
     return re.sub(r'[^\w\-_\. ]', '_', filename)
+
 main()
