@@ -29,16 +29,17 @@ def main():
         'afmt': '{{FrontSide}}<hr id="answer">{{Italian}}',
         },
     ] )
+    my_deck = genanki.Deck(
+        deck_id,
+        'Espanol palabras')
     try:
-        for i in len(updated_text):
+        q= len(updated_text)
+        for i in range(q):
             my_note= genanki.Note(
             model= my_model,
             fields= [text,words_it] 
-        )
-        my_deck = genanki.Deck(
-            deck_id,
-        'Espanol palabras')
-        my_deck.add_note(my_note)
+            )
+            my_deck.add_note(my_note)
         genanki.Package(my_deck).write_to_file("output.apkg")  
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -49,6 +50,6 @@ def trans(text):
     return translation.text
 
 
-
+#rn it just creates the same card 9 times. i wanna die
 
 main()
