@@ -20,36 +20,46 @@ def main():
         'Linguistics',
         fields=[
         {'name': 'Spanish'},
-        {'name': 'Italian'},                               
+        {'name': 'Italian'},
+        {'name': "audio.mp3]"}                            
     ],
     templates=[
         {
         'name': 'Card 1',
-        'qfmt': '{{Spanish}}',              
+        'qfmt': '{{Spanish}}<br>{{[sound: audio.mp3]}}',              
         'afmt': '{{FrontSide}}<hr id="answer">{{Italian}}',
         },
     ] )
     my_deck = genanki.Deck(
         deck_id,
         'Espanol palabras')
+    audio_path= "audio.mp3"
     try:
         for i,q in zip(updated_words_it,updated_text, strict= True):
+                create_audio(q, audio_path)
                 my_note= genanki.Note(
                 model= my_model,
-                fields= [q,i] 
+                fields= [q,i,audio_path] 
                 )
                 my_deck.add_note(my_note)
         genanki.Package(my_deck).write_to_file("output.apkg")  
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
-#IT WORKS
-
-
+def create_audio(input,output):
+    try:
+        tts= gTTS(input, lang= "es")
+        tts.save(output)
+    except Exception as e:
+        print(f"an error has occured: {e}")
+    else:
+        print(f"Saved audio as {output}")
+     
 def trans(text):
     translator = Translator()
     translation= translator.translate(text, dest= "it")
     return translation.text
+
+#audio is generated(at least it tells me so) but cant send it to anki
 
 main()
