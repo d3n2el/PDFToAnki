@@ -5,6 +5,8 @@ from gtts import gTTS
 import genanki
 import os
 import random
+import re
+
 def main():
     file= sys.argv[1]
     reader = PdfReader(f"C:/Users/Danzel/Documents/pdf files/{file}")
@@ -21,21 +23,22 @@ def main():
         fields=[
         {'name': 'Spanish'},
         {'name': 'Italian'},
-        {'name': "audio.mp3]"}                            
+        {'name': 'Audio'}                            
     ],
     templates=[
         {
         'name': 'Card 1',
-        'qfmt': '{{Spanish}}<br>{{[sound: audio.mp3]}}',              
+        'qfmt': '{{Spanish}}<br>{{[sound:Audio]}}',              
         'afmt': '{{FrontSide}}<hr id="answer">{{Italian}}',
         },
     ] )
     my_deck = genanki.Deck(
         deck_id,
         'Espanol palabras')
-    audio_path= "audio.mp3"
     try:
-        for i,q in zip(updated_words_it,updated_text, strict= True):
+        for i,q in zip(updated_words_it,updated_text):
+                santized_q= sanitize_filename(q).strip()
+                audio_path= f"{santized_q}.mp3"
                 create_audio(q, audio_path)
                 my_note= genanki.Note(
                 model= my_model,
@@ -60,6 +63,6 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-#audio is generated(at least it tells me so) but cant send it to anki
-
+def sanitize_filename(filename):
+    return re.sub(r'[^\w\-_\. ]', '_', filename)
 main()
