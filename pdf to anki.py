@@ -33,11 +33,10 @@ def main():
         deck_id,
         'Espanol palabras')
     try:
-        q= len(updated_text)
-        for i in range(q):
+        for i in updated_words_it or i in updated_text:
             my_note= genanki.Note(
             model= my_model,
-            fields= [text,words_it] 
+            fields= [updated_text[i],updated_words_it[i]] 
             )
             my_deck.add_note(my_note)
         genanki.Package(my_deck).write_to_file("output.apkg")  
@@ -49,7 +48,5 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-
-#rn it just creates the same card 9 times. i wanna die
 
 main()
