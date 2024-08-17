@@ -63,6 +63,4 @@ def trans(text):
     return translation.text
 
 
-# audio is generated(at least it tells me so) but cant send it to anki
-
 main()
