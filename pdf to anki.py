@@ -11,7 +11,7 @@ def main():
     page= reader.pages[0]   
     text = page.extract_text()
     words_it = trans(text)
-    updated_words_it= words_it.split(" ")
+    updated_words_it = words_it.split("\n")
     updated_text= text.split(" ")
     model_id = random.randrange(1 << 30, 1 << 31)
     deck_id = random.randrange(1 << 30, 1 << 31)
@@ -35,6 +35,7 @@ def main():
     try:
         for i in updated_words_it:
             for q in updated_text:
+  
                 my_note= genanki.Note(
                 model= my_model,
                 fields= [q,i] 
@@ -49,5 +50,5 @@ def trans(text):
     translation= translator.translate(text, dest= "it")
     return translation.text
 
-#in this version i finally get separated flashcards but i STILL DONT GET SEPARATED TRANSLATION
+#this version,well,check it for yourself. I bursted out laughing
 main()
