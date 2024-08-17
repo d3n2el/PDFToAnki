@@ -12,7 +12,7 @@ def main():
     text = page.extract_text()
     words_it = trans(text)
     updated_words_it = words_it.split("\n")
-    updated_text= text.split(" ")
+    updated_text= text.split("\n")
     model_id = random.randrange(1 << 30, 1 << 31)
     deck_id = random.randrange(1 << 30, 1 << 31)
     my_model = genanki.Model(
@@ -33,7 +33,7 @@ def main():
         deck_id,
         'Espanol palabras')
     try:
-        for i,q in zip(updated_words_it,updated_text):
+        for i,q in zip(updated_words_it,updated_text, strict= True):
                 my_note= genanki.Note(
                 model= my_model,
                 fields= [q,i] 
@@ -43,7 +43,9 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-#creates 2 flashcards instead of 4, 2nd one with wrong trans. when strict= True it tells me updated_text is longer. might need to check on the trans function
+
+#IT WORKS
+
 
 def trans(text):
     translator = Translator()
